@@ -1,0 +1,60 @@
+/* ============================================================
+   VOID THEME — responsive.css
+   Global responsive overrides (component-specific overrides
+   live inside their respective files)
+   ============================================================ */
+
+/* ── 1280px — large desktops ─────────────────────────────── */
+@media (max-width: 1280px) {
+  .info-strip { flex-wrap: wrap; }
+}
+
+/* ── 900px — tablets ─────────────────────────────────────── */
+@media (max-width: 900px) {
+  :root {
+    --page-pad-x: 32px;
+    --section-gap: clamp(60px, 10vw, 120px);
+  }
+
+  .topbar__controls {
+    gap: 10px;
+  }
+
+  .void-toggle span.toggle-label {
+    display: none;
+  }
+}
+
+/* ── 600px — mobile ──────────────────────────────────────── */
+@media (max-width: 600px) {
+  :root {
+    --page-pad-x: 20px;
+    --nav-height: 52px;
+  }
+
+  .hero__scroll-hint { display: none; }
+  .hero__index       { display: none; }
+
+  .info-strip__value { font-size: var(--text-xl); }
+
+  .about__discipline-tag { padding: 6px 12px; }
+}
+
+/* ── Reduced motion ──────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .void-marquee__track { animation: none; }
+  .hero__scroll-line { animation: none; }
+}

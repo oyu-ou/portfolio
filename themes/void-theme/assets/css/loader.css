@@ -1,0 +1,75 @@
+/* ============================================================
+   VOID THEME — loader.css
+   Full-screen preloader with counter
+   ============================================================ */
+
+#void-loader {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-loader);
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: var(--page-pad-x);
+  padding-bottom: calc(var(--nav-height) + 48px);
+  pointer-events: all;
+
+  transition: opacity 0.8s var(--ease-out),
+              visibility 0.8s;
+}
+
+#void-loader.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Large counter */
+.loader__counter {
+  font-size: var(--text-hero);
+  font-weight: var(--weight-light);
+  letter-spacing: var(--tracking-tight);
+  line-height: 1;
+  color: var(--fg);
+  font-variant-numeric: tabular-nums;
+  overflow: hidden;
+}
+
+.loader__counter-inner {
+  display: block;
+  transform: translateY(0);
+  transition: transform 0.6s var(--ease-out);
+}
+
+/* Label row */
+.loader__bottom {
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.loader__label {
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--fg-dim);
+}
+
+/* Progress line */
+.loader__progress-wrap {
+  width: 120px;
+  height: 1px;
+  background: var(--border);
+  overflow: hidden;
+}
+
+.loader__progress-bar {
+  height: 100%;
+  background: var(--fg);
+  width: 0%;
+  transition: width 0.1s linear;
+}

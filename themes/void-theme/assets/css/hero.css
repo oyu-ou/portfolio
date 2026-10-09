@@ -1,0 +1,185 @@
+/* ============================================================
+   VOID THEME — hero.css
+   Fullscreen video hero with film grain overlay
+   ============================================================ */
+
+/* ── Section wrapper ─────────────────────────────────────── */
+#void-hero {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  min-height: 600px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Video background ─────────────────────────────────────── */
+/* REPLACE: hero video — swap #hero-video src in front-page.php */
+.hero__video-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hero__video-wrap video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1.2s var(--ease-out);
+}
+
+.hero__video-wrap video.is-loaded {
+  opacity: 1;
+}
+
+/* Fallback poster / placeholder */
+.hero__video-poster {
+  position: absolute;
+  inset: 0;
+  background: var(--bg);
+  z-index: 1;
+  transition: opacity 1.2s var(--ease-out);
+}
+
+.hero__video-poster.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Dark overlay to keep text readable */
+.hero__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: var(--overlay);
+  transition: background var(--dur-slow) var(--ease-out);
+}
+
+/* ── Film grain canvas ───────────────────────────────────── */
+/* Canvas is injected by grain.js */
+#grain-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-overlay);
+  pointer-events: none;
+  opacity: var(--grain-opacity);
+  mix-blend-mode: overlay;
+  transition: opacity var(--dur-slow);
+}
+
+/* ── Hero content ────────────────────────────────────────── */
+.hero__content {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+
+  /* Intro animation — triggered by .is-revealed class */
+  opacity: 0;
+  transform: scale(0.97) translateY(20px);
+  transition:
+    opacity var(--dur-xslow) var(--ease-out),
+    transform var(--dur-xslow) var(--ease-out);
+}
+
+.hero__content.is-revealed {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+/* REPLACE: logo — swap this placeholder with your SVG animation */
+.hero__logo-wrap {
+  display: block;
+  width: clamp(200px, 40vw, 600px);
+}
+
+.hero__logo-placeholder {
+  /* Placeholder box shown until SVG logo is added */
+  width: 100%;
+  aspect-ratio: 4 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.5);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+}
+
+/* Hero sub-label */
+.hero__label {
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.hero__label::before,
+.hero__label::after {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 1px;
+  background: rgba(255,255,255,0.3);
+}
+
+/* ── Scroll hint at bottom ───────────────────────────────── */
+.hero__scroll-hint {
+  position: absolute;
+  bottom: calc(var(--nav-height) + 24px);
+  left: var(--page-pad-x);
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  opacity: 0;
+  transition: opacity var(--dur-slow) var(--ease-out) 0.8s;
+}
+
+.hero__scroll-hint.is-revealed {
+  opacity: 1;
+}
+
+.hero__scroll-hint-label {
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+}
+
+.hero__scroll-line {
+  width: 1px;
+  height: 48px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent);
+  animation: scrollLinePulse 2s ease-in-out infinite;
+}
+
+@keyframes scrollLinePulse {
+  0%, 100% { transform: scaleY(1); opacity: 0.6; }
+  50%       { transform: scaleY(0.5); opacity: 1; }
+}
+
+/* ── Hero index (bottom right) ───────────────────────────── */
+.hero__index {
+  position: absolute;
+  bottom: calc(var(--nav-height) + 24px);
+  right: var(--page-pad-x);
+  z-index: 4;
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wider);
+  color: rgba(255,255,255,0.35);
+  font-variant-numeric: tabular-nums;
+  writing-mode: vertical-rl;
+  letter-spacing: 0.15em;
+}

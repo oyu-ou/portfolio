@@ -1,0 +1,20 @@
+/*
+Theme Name:  VOID
+Theme URI:   https://yoursite.com
+Author:      Your Name
+Author URI:  https://yoursite.com
+Description: Minimal, experimental high-end portfolio theme. Black & white only. Bottom navigation, film-grain hero, scroll animations, grid/list toggle.
+Version:     1.0.0
+License:     GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: void
+Tags:        portfolio, minimal, dark, animation, one-page, custom-menu
+
+/* ========================================================
+   CUSTOMIZATION MAP — search these comments to find:
+   → LOGO:        header.php          "REPLACE: logo"
+   → VIDEO:       front-page.php      "REPLACE: hero video"
+   → FONTS:       assets/css/base.css "REPLACE: fonts"
+   → DARK ACCENT: assets/css/vars.css "--accent-dark"
+   → LIGHT ACCENT:assets/css/vars.css "--accent-light"
+   ======================================================== */

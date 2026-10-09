@@ -1,0 +1,251 @@
+/* ============================================================
+   VOID THEME — nav.css
+   Fixed bottom navigation bar
+   ============================================================ */
+
+/* ── Top bar: toggles ─────────────────────────────────────── */
+#void-topbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: var(--z-nav);
+  padding: 20px var(--page-pad-x);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: none; /* children get pointer-events back */
+}
+
+.topbar__logo {
+  pointer-events: all;
+  display: block;
+  line-height: 1;
+}
+
+/* REPLACE: logo — swap the SVG placeholder below with your own */
+.topbar__logo-mark {
+  width: 32px;
+  height: 32px;
+  display: block;
+}
+
+.topbar__controls {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  pointer-events: all;
+}
+
+/* ── Toggle buttons (shared styles) ──────────────────────── */
+.void-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--fg);
+  padding: 6px 14px;
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  cursor: none;
+  transition:
+    border-color var(--dur-fast),
+    color var(--dur-fast),
+    background var(--dur-fast) var(--ease-out);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.void-toggle:hover {
+  border-color: var(--fg);
+}
+
+.void-toggle.is-active {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+.void-toggle__icon {
+  display: grid;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+/* Grid icon (2×2) */
+.toggle-icon--grid {
+  grid-template-columns: repeat(2, 5px);
+  grid-template-rows: repeat(2, 5px);
+}
+.toggle-icon--grid span {
+  width: 5px; height: 5px;
+  background: currentColor;
+  display: block;
+}
+
+/* List icon (3 rows) */
+.toggle-icon--list {
+  grid-template-columns: 1fr;
+  gap: 3px;
+}
+.toggle-icon--list span {
+  width: 16px; height: 1px;
+  background: currentColor;
+  display: block;
+}
+
+/* ── Bottom navigation ────────────────────────────────────── */
+#void-nav {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: var(--z-nav);
+  height: var(--nav-height);
+  background: var(--nav-bg);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  transition:
+    background var(--dur-base) var(--ease-out),
+    border-color var(--dur-base) var(--ease-out);
+}
+
+.nav__inner {
+  width: 100%;
+  padding: 0 var(--page-pad-x);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Nav items list */
+.nav__items {
+  display: flex;
+  align-items: center;
+  gap: clamp(20px, 4vw, 60px);
+}
+
+/* Each nav link */
+.nav__link {
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--fg-dim);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  padding: 4px 0;
+  transition: color var(--dur-fast);
+}
+
+/* Index number */
+.nav__link-num {
+  font-size: 9px;
+  opacity: 0.4;
+  font-variant-numeric: tabular-nums;
+  transition: opacity var(--dur-fast);
+}
+
+/* Active / hover state */
+.nav__link.is-active,
+.nav__link:hover {
+  color: var(--fg);
+}
+
+.nav__link.is-active .nav__link-num {
+  opacity: 1;
+  color: var(--accent);
+}
+
+/* Active accent dot */
+.nav__link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0;
+  width: 0; height: 1px;
+  background: var(--accent);
+  transition: width var(--dur-base) var(--ease-out);
+}
+
+.nav__link.is-active::after,
+.nav__link:hover::after {
+  width: 100%;
+}
+
+/* Nav right side — index / counter */
+.nav__meta {
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wider);
+  color: var(--fg-dim);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Hamburger (mobile) */
+.nav__hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  background: none;
+  border: none;
+  cursor: none;
+  padding: 4px;
+}
+
+.nav__hamburger span {
+  display: block;
+  width: 22px; height: 1px;
+  background: var(--fg);
+  transition: transform var(--dur-base) var(--ease-out), opacity var(--dur-fast);
+}
+
+.nav__hamburger.is-open span:nth-child(1) { transform: translateY(5px) rotate(45deg); }
+.nav__hamburger.is-open span:nth-child(2) { opacity: 0; }
+.nav__hamburger.is-open span:nth-child(3) { transform: translateY(-5px) rotate(-45deg); }
+
+/* Mobile nav drawer */
+.nav__mobile-drawer {
+  position: fixed;
+  inset: 0;
+  bottom: var(--nav-height);
+  background: var(--bg);
+  z-index: calc(var(--z-nav) - 1);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: var(--page-pad-x);
+  padding-bottom: 40px;
+  gap: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity var(--dur-slow) var(--ease-out),
+    visibility var(--dur-slow);
+}
+
+.nav__mobile-drawer.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.nav__mobile-link {
+  font-size: var(--text-3xl);
+  font-weight: var(--weight-light);
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg-dim);
+  transition: color var(--dur-fast);
+}
+
+.nav__mobile-link:hover,
+.nav__mobile-link.is-active {
+  color: var(--accent);
+}
+
+/* ── Responsive ───────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .nav__items { display: none; }
+  .nav__meta { display: none; }
+  .nav__hamburger { display: flex; }
+}

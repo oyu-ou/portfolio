@@ -22,7 +22,7 @@
 }
 
 #axiom-loader.done {
-  opacity: 0;
+  opacity: .5;
   visibility: hidden;
 }
 

@@ -1,0 +1,10 @@
+{
+  "host": "ftpupload.net",
+  "username": "if0_41332119",
+  "password": "Ajaajaamjilt247",
+  "protocol": "ftp",
+  "port": 21,
+  "remotePath": "/htdocs/wp-content/themes/",
+  "uploadOnSave": true,
+  "ignore": []
+}
