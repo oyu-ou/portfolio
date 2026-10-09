@@ -1,0 +1,185 @@
+/* ═══════════════════════════════════════════════════
+   AXIOM — loader.css + cursor.css + grain
+   ═══════════════════════════════════════════════════ */
+
+/* ── LOADER ───────────────────────────────────────── */
+#axiom-loader {
+  --ld-dot:      clamp(4px, 0.7vw, 18px);   /* ← dot size (everything scales from this) */
+  --ld-dot-gap:  calc(var(--ld-dot) * 0.9);  /* gap between dots inside a cell */
+  --ld-cell-gap: calc(var(--ld-dot) * 1.8);  /* gap between cells */
+
+  position: fixed; inset: 0;
+  z-index: var(--z-loader);
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  padding: var(--pad-x);
+  padding-bottom: calc(var(--nav-h) + var(--pad-x) + var(--pad-x));
+  transition: opacity 0.7s var(--ease-out), visibility 0.7s;
+  pointer-events: none;
+}
+
+#axiom-loader.done {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.loader__text {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  max-width: 100%;
+  user-select: none;
+}
+
+/* one braille cell = 2 columns × 3/4 rows of dots */
+.loader__text .cell {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, var(--ld-dot));
+  grid-auto-rows: var(--ld-dot);
+  gap: var(--ld-dot-gap);
+  padding: calc(var(--ld-dot) * 0.7) calc(var(--ld-dot) * 0.9);
+  margin-right: var(--ld-cell-gap);
+  flex: none;
+}
+
+/* dot positions (Unicode braille order: 1 2 3 left col, 4 5 6 right col, 7 8 bottom) */
+.loader__text .dot:nth-child(1) { grid-area: 1 / 1; }
+.loader__text .dot:nth-child(2) { grid-area: 2 / 1; }
+.loader__text .dot:nth-child(3) { grid-area: 3 / 1; }
+.loader__text .dot:nth-child(4) { grid-area: 1 / 2; }
+.loader__text .dot:nth-child(5) { grid-area: 2 / 2; }
+.loader__text .dot:nth-child(6) { grid-area: 3 / 2; }
+.loader__text .dot:nth-child(7) { grid-area: 4 / 1; }
+.loader__text .dot:nth-child(8) { grid-area: 4 / 2; }
+
+/* ONLY filled dots exist visually: empty ones are scaled to 0 */
+.loader__text .dot {
+  width: var(--ld-dot);
+  height: var(--ld-dot);
+  border-radius: 50%;
+  background: var(--fg);
+  transform: scale(0);
+  transition: transform 0.16s cubic-bezier(0.34, 1.56, 0.64, 1);  /* pop! */
+}
+.loader__text .dot.on { transform: scale(1); }
+
+/* black ↔ white glitch on a cell */
+.loader__text .cell.inv { background: var(--fg); }
+.loader__text .cell.inv .dot { background: var(--bg); }
+
+/* whole line flash */
+.loader__text.flash .cell { background: var(--fg); }
+.loader__text.flash .dot  { background: var(--bg); }
+
+/* typing caret */
+.loader__text .cell.caret::after {
+  content: "";
+  position: absolute;
+  right: calc(var(--ld-cell-gap) * -0.55);
+  top: 0; bottom: 0;
+  width: max(2px, calc(var(--ld-dot) * 0.3));
+  background: var(--fg);
+  animation: ld-caret 0.5s steps(1) infinite;
+}
+@keyframes ld-caret { 50% { opacity: 0; } }
+
+.loader__site-name,
+.loader__bar-wrap { position: absolute; }
+
+.loader__site-name {
+  font-family: var(--font-mono);
+  font-size: var(--sz-xs);
+  letter-spacing: var(--ls-widest);
+  text-transform: uppercase;
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  bottom: 0;
+  right: 0;
+  padding: 0 var(--pad-x);
+}
+
+.loader__bar-wrap {
+  width: 100%;
+  left: 0;
+  height: 1px;
+}
+.loader__bar {
+  height: 100%;
+  background: var(--fg);
+  width: 0%;
+  transition: width 0.08s linear;
+}
+
+
+/* ── GRAIN CANVAS ─────────────────────────────────── */
+#grain-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-overlay);
+  pointer-events: none;
+  opacity: var(--grain);
+  mix-blend-mode: overlay;
+  width: 100vw;
+  height: 100vh;
+  transition: opacity var(--t-slow);
+}
+
+/* ── CUSTOM CURSOR ────────────────────────────────── */
+/* No mix-blend-mode — cursor must be visible on BOTH dark and light themes */
+@media (hover: none) { .ax-cursor { display: none !important; } }
+
+.ax-cursor {
+  position: fixed;
+  top: 0; left: 0;
+  z-index: var(--z-cursor);
+  pointer-events: none;
+  /* NO mix-blend-mode here — it made white cursor invisible on white bg */
+}
+
+.ax-cursor__dot {
+  position: absolute;
+  width: 8px; height: 8px;
+  background: var(--fg);           /* black on light, white on dark */
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.25s var(--ease-out),
+              height 0.25s var(--ease-out),
+              background 0.2s,
+              border-radius 0.25s;
+}
+
+.ax-cursor__ring {
+  position: absolute;
+  width: 36px; height: 36px;
+  border: 1.5px solid var(--fg);   /* black ring on light, white ring on dark */
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.5;
+  transition: width 0.4s var(--ease-out),
+              height 0.4s var(--ease-out),
+              border-color 0.2s,
+              opacity 0.3s,
+              border-radius 0.3s;
+}
+
+/* Link hover — accent fill */
+body.cur-link .ax-cursor__dot  {
+  width: 46px; height: 46px;
+  background: var(--accent);
+  border-radius: 50%;
+}
+body.cur-link .ax-cursor__ring { opacity: 0; }
+
+/* Text cursor */
+body.cur-text .ax-cursor__dot  { width: 2px; height: 26px; border-radius: 1px; }
+body.cur-text .ax-cursor__ring { opacity: 0; }
+
+/* Click feedback */
+.ax-cursor.clicking .ax-cursor__dot {
+  transform: translate(-50%,-50%) scale(0.6);
+}
