@@ -26,4 +26,4 @@ jobs:
           protocol: ftp
           port: 21
           local-dir: ./themes/28.03/
-          server-dir: /htdocs/wp-content/themes/28.03/
+          server-dir: oyu.ct.ws/htdocs/wp-content/themes/28.03/
